@@ -1,3 +1,3 @@
 class Base {
-    static apiUrl = '';
+    static apiUrl = 'http://localhost:8080';
 }
