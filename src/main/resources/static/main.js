@@ -5,7 +5,7 @@ function logIn() {
     if (userDto.httpStatus == 'OK') {
         setCookie("username", userDto.username, 60 * 24);
         setCookie("token", userDto.token, 60 * 24);
-        window.location.href = 'http://localhost:3000?username='+userDto.username;
+        window.location.href = 'http://localhost:3000/login?room_id=&referrer=%2Fgroup-call%2Ffull-screen&username='+userDto.username;
     }
 }
 
@@ -26,7 +26,7 @@ function signUp() {
         setCookie("username", userDto.username, 60 * 24);
         setCookie("token", userDto.token, 60 * 24);
         alert(userDto.message);
-        window.location.href = 'http://localhost:3000?username='+userDto.username;
+        window.location.href = 'http://localhost:3000/login?room_id=&referrer=%2Fgroup-call%2Ffull-screen&username='+userDto.username;
     }
 }
 
