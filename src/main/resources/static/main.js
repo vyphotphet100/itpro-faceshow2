@@ -5,7 +5,7 @@ function logIn() {
     if (userDto.httpStatus == 'OK') {
         setCookie("username", userDto.username, 60 * 24);
         setCookie("token", userDto.token, 60 * 24);
-        window.location.href = 'http://localhost:3000';
+        window.location.href = 'http://localhost:3000?username='+userDto.username;
     }
 }
 
@@ -26,12 +26,19 @@ function signUp() {
         setCookie("username", userDto.username, 60 * 24);
         setCookie("token", userDto.token, 60 * 24);
         alert(userDto.message);
-        window.location.href = 'http://localhost:3000';
+        window.location.href = 'http://localhost:3000?username='+userDto.username;
     }
 }
 
+function getParam(name) {
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var c = url.searchParams.get(name);
+    return c;
+}
+
 function setProfile() {
-    var userDto = UserRequest.getProfile(getCookie("username"));
+    var userDto = UserRequest.getProfile(getParam("username"));
     if (userDto.httpStatus != "OK") {
         alert("Something's wrong");
         return;
