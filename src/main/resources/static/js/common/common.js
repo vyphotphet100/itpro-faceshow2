@@ -2,7 +2,7 @@ var stompClient = null;
 
 // socket
 function connect() {
-    var socket = new SockJS('http://localhost:8080/ws');
+    var socket = new SockJS('https://stark-reef-32859.herokuapp.com/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         //setConnected(true);
