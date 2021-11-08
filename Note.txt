@@ -1,0 +1,23 @@
+FE: https://github.com/PhongNguyen3005/ITProject.git
+BE: https://github.com/vyphotphet100/itpro-faceshow.git
+
+
+-> Login (của mình)
+-> Trang lựa chọn Direct call hoặc Group call (sendbird): Tự động chọn Group call -> Chuyển trang
+-> Log in (sendbird): Tự động điền AppID và username -> Chuyển trang
+-> Trang chủ (sendbird):
+    - Tạo phòng
+    - Tham gia vào phòng
+    - Chỉnh sửa thông tin
+    - Quản lý phòng
+
+
+* Những thứ cần làm
+- Chỉnh sửa giao diện sao cho hợp lý
+- Tích hợp chat vào trang Group call
+- Tìm hiểu cách gọi API trong react
+- Gọi API đến server của mình và lấy dữ liệu
+- Làm chức năng kick người dùng
+- Làm trang quản lý phòng
+- Làm trang Chỉnh sửa thông tin
+

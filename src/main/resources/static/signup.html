@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="App.css">
+    <title>Document</title>
+</head>
+
+<body>
+<div class="auth__form-container">
+    <div class="auth__form-container_fields">
+        <div class="auth__form-container_fields-content">
+            <p>Sign Up</p>
+            <div onSubmit={handleSubmit}>
+
+                <div class="auth__form-container_fields-content_input">
+                    <label htmlFor="fullName">Full name</label>
+                    <input id="fullName" type="text" placeholder="Full name" required />
+                </div>
+
+                <div class="auth__form-container_fields-content_input">
+                    <label htmlFor="username">Username</label>
+                    <input id="username" type="text" placeholder="Username" required />
+                </div>
+
+                <div class="auth__form-container_fields-content_input">
+                    <label htmlFor="address">Address</label>
+                    <input id="address" type="text" placeholder="Address"  required />
+                </div>
+
+                <div class="auth__form-container_fields-content_input">
+                    <label htmlFor="password">Password</label>
+                    <input id="password" type="password" placeholder="Password"
+                           required />
+                </div>
+
+                <div class="auth__form-container_fields-content_input">
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <input id="confirmPassword" type="password" placeholder="Confirm Password"
+                           required />
+                </div>
+
+                <div class="auth__form-container_fields-content_button">
+                    <button onClick="signUp();">Sign Up</button>
+                </div>
+            </div>
+            <div class="auth__form-container_fields-account">
+                <p>
+                    You alrealy have account?
+                    <a href="signin.html">Sign in Here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="auth__form-container_image">
+        <img src="assets/FaceShow.png" alt="sign in" />
+    </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="js/common/common.js"></script>
+<script src="js/request/base.js"></script>
+<script src="js/request/user-request.js"></script>
+<script src="main.js"></script>
+
+</html>
