@@ -44,5 +44,5 @@ function setProfile() {
     $('#phone').val(userDto.phone);
 }
 
-if (window.location.href.includes("3000"))
+if (window.location.href.includes("profile"))
     setProfile();

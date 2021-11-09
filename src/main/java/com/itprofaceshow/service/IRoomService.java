@@ -14,4 +14,5 @@ public interface IRoomService extends IBaseService{
     RoomDTO getUserStatus(HttpServletRequest request, String id);
     RoomDTO addUser(HttpServletRequest request, String roomId, String username);
     RoomDTO removeUser(HttpServletRequest request, String roomId, String username);
+    RoomDTO findAllByUsername(String username);
 }

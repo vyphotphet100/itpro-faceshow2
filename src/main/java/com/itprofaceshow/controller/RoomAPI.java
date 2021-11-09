@@ -37,4 +37,16 @@ public class RoomAPI {
         RoomDTO resDto = roomService.removeUser(request, roomId, username);
         return new ResponseEntity<RoomDTO>(resDto, resDto.getHttpStatus());
     }
+
+    @GetMapping(value = "/room/get-by-host-name/{username}")
+    public ResponseEntity<RoomDTO> getRoomByHostName(HttpServletRequest request, @PathVariable String username) {
+        RoomDTO resDto = roomService.findAllByUsername(username);
+        return new ResponseEntity<RoomDTO>(resDto, resDto.getHttpStatus());
+    }
+
+    @DeleteMapping(value = "/room/{id}")
+    public ResponseEntity<RoomDTO> delete(@PathVariable("id") String id) {
+        RoomDTO resDto = roomService.delete(id);
+        return new ResponseEntity<RoomDTO>(resDto, resDto.getHttpStatus());
+    }
 }

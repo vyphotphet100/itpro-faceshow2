@@ -5,6 +5,7 @@ import com.itprofaceshow.dto.RoomDTO;
 import com.itprofaceshow.dto.UserDTO;
 import com.itprofaceshow.entity.RoomEntity;
 import com.itprofaceshow.entity.UserEntity;
+import com.itprofaceshow.repository.MessageRepository;
 import com.itprofaceshow.repository.RoomRepository;
 import com.itprofaceshow.repository.UserRepository;
 import com.itprofaceshow.service.IRoomService;
@@ -26,10 +27,13 @@ public class RoomService extends BaseService implements IRoomService {
     @Autowired
     private SimpMessagingTemplate messageTmp;
 
+    @Autowired
+    private MessageRepository messageRepo;
+
     @Override
     public RoomDTO findAll() {
         RoomDTO roomDto = new RoomDTO();
-        for (RoomEntity roomEntity: roomRepo.findAll())
+        for (RoomEntity roomEntity : roomRepo.findAll())
             roomDto.getResultList().add(converter.toDTO(roomEntity, RoomDTO.class));
 
         roomDto.setMessage("Get list of rooms successfully.");
@@ -40,7 +44,7 @@ public class RoomService extends BaseService implements IRoomService {
     public RoomDTO findById(String id) {
         RoomEntity roomEntity = roomRepo.findById(id).orElse(null);
         if (roomEntity == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "This room does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "This room does not exist.");
 
         RoomDTO roomDto = converter.toDTO(roomEntity, RoomDTO.class);
         roomDto.setMessage("Get room having id = " + id + " successfully.");
@@ -52,7 +56,7 @@ public class RoomService extends BaseService implements IRoomService {
         RoomEntity roomEntity = new RoomEntity();
         roomEntity.setHostUser(this.getRequestedUser(request));
         if (roomEntity.getHostUser() == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Host user is invalid.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Host user is invalid.");
 
         roomEntity.setHiddenPassword(MyUtil.generateRandomString(10));
         roomEntity.setId(roomId);
@@ -65,7 +69,7 @@ public class RoomService extends BaseService implements IRoomService {
     public RoomDTO update(RoomDTO roomDto) {
         RoomEntity roomEntity = roomRepo.findById(roomDto.getId()).orElse(null);
         if (roomEntity != null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "This room does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "This room does not exist.");
 
         roomEntity = converter.toEntity(roomDto, RoomEntity.class);
         RoomDTO resDto = converter.toDTO(roomRepo.save(roomEntity), RoomDTO.class);
@@ -76,8 +80,9 @@ public class RoomService extends BaseService implements IRoomService {
     @Override
     public RoomDTO delete(String id) {
         if (!roomRepo.existsById(id))
-            return (RoomDTO)exceptionObject(new RoomDTO(), "This room does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "This room does not exist.");
 
+        messageRepo.deleteAll();
         roomRepo.deleteById(id);
         RoomDTO roomDto = new RoomDTO();
         roomDto.setMessage("Delete room successfully.");
@@ -87,11 +92,11 @@ public class RoomService extends BaseService implements IRoomService {
     @Override
     public RoomDTO getUserStatus(HttpServletRequest request, String id) {
         if (getRequestedUser(request) == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Requested user does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Requested user does not exist.");
 
         RoomEntity roomEntity = roomRepo.findById(id).orElse(null);
         if (roomEntity == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "This room id doesn't exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "This room id doesn't exist.");
 
         RoomDTO roomDto = new RoomDTO();
         for (UserEntity userEntity : roomEntity.getJoinedUsers()) {
@@ -109,20 +114,20 @@ public class RoomService extends BaseService implements IRoomService {
     @Override
     public RoomDTO addUser(HttpServletRequest request, String roomId, String username) {
         if (this.getRequestedUser(request) == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Requested user does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Requested user does not exist.");
 
         RoomEntity roomEntity = roomRepo.findById(roomId).orElse(null);
         UserEntity userEntity = userRepo.findById(username).orElse(null);
 
         if (roomEntity == null || userEntity == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Room or User does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Room or User does not exist.");
 
         if (!this.getRequestedUser(request).getUsername().equals(roomEntity.getHostUser().getUsername()))
-            return (RoomDTO)exceptionObject(new RoomDTO(), "You are not the host of this room.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "You are not the host of this room.");
 
-        for (UserEntity tmpUserEntity: roomEntity.getJoinedUsers())
+        for (UserEntity tmpUserEntity : roomEntity.getJoinedUsers())
             if (tmpUserEntity.getUsername().equals(username))
-                return (RoomDTO)exceptionObject(new RoomDTO(), "This user exists already.");
+                return (RoomDTO) exceptionObject(new RoomDTO(), "This user exists already.");
 
         roomEntity.getJoinedUsers().add(userEntity);
         roomEntity = roomRepo.save(roomEntity);
@@ -135,19 +140,19 @@ public class RoomService extends BaseService implements IRoomService {
     public RoomDTO removeUser(HttpServletRequest request, String roomId, String username) {
         UserEntity requestedUser = this.getRequestedUser(request);
         if (requestedUser == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Requested user does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Requested user does not exist.");
 
         RoomEntity roomEntity = roomRepo.findById(roomId).orElse(null);
         UserEntity userEntity = userRepo.findById(username).orElse(null);
 
         if (roomEntity == null || userEntity == null)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "Room or User does not exist.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "Room or User does not exist.");
 
         if (!requestedUser.getUsername().equals(roomEntity.getHostUser().getUsername()))
-            return (RoomDTO)exceptionObject(new RoomDTO(), "You are not the host of this room.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "You are not the host of this room.");
 
         Boolean removed = false;
-        for(int i=0; i<roomEntity.getJoinedUsers().size(); i++) {
+        for (int i = 0; i < roomEntity.getJoinedUsers().size(); i++) {
             if (roomEntity.getJoinedUsers().get(i).getUsername().equals(username)) {
                 roomEntity.getJoinedUsers().remove(i);
                 removed = true;
@@ -155,7 +160,7 @@ public class RoomService extends BaseService implements IRoomService {
             }
         }
         if (!removed)
-            return (RoomDTO)exceptionObject(new RoomDTO(), "User does not exist in room.");
+            return (RoomDTO) exceptionObject(new RoomDTO(), "User does not exist in room.");
 
         // send remove redirect message to removed user
         MessageDTO messageDto = new MessageDTO();
@@ -168,6 +173,17 @@ public class RoomService extends BaseService implements IRoomService {
         // return result
         RoomDTO roomDto = converter.toDTO(roomEntity, RoomDTO.class);
         roomDto.setMessage("Removed " + username + ".");
+        return roomDto;
+    }
+
+    @Override
+    public RoomDTO findAllByUsername(String username) {
+        RoomDTO roomDto = new RoomDTO();
+        for (RoomEntity roomEntity : roomRepo.findAll())
+            if (roomEntity.getHostUser().getUsername().equals(username))
+                roomDto.getResultList().add(converter.toDTO(roomEntity, RoomDTO.class));
+
+        roomDto.setMessage("Get list of rooms successfully.");
         return roomDto;
     }
 }
