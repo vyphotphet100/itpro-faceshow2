@@ -184,8 +184,8 @@ a {
 
 	
 /* Chat Page */
-/* 
-.chat-container {
+
+/* .chat-container {
 	max-width: 1100px;
 	background: #fff;
 	margin: 30px auto;
@@ -230,12 +230,6 @@ a {
 	padding: 10px 0;
 }
 
-.chat-messages {
-	padding: 30px;
-    height: calc(80vh);
-	overflow-y: scroll;
-    border-radius: 25px;
-}
 
 .chat-messages .message {
 	padding: 10px;
@@ -265,17 +259,31 @@ a {
 .chat-form-container form {
 	display: flex;
 	
+} */
+.user-fullname{
+	padding-left: 20px;
 }
-#msg{
+.content{
+	padding-left: 15px;
+}
+.messages {
+	height: calc(90vh);
+	overflow-y: scroll;
+}
+
+#messageContentInput{
     border-top-left-radius: 25px !important;
     border-bottom-left-radius: 25px;
     outline: none !important;
     border-color:#6210cc !important;
+	width: calc(10vw);
 }
 #msgb{
     outline: none !important;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
+	height: 40px;
+	display: inline-block;
     
     
 }
@@ -295,7 +303,7 @@ a {
 	padding: 5px;
 	height: 40px;
 	flex: 1;
-} */
+} 
 
 /*ListRoom*/
 .ListRoom{

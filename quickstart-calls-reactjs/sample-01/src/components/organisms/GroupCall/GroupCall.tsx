@@ -225,10 +225,11 @@ type GroupCallProps = {
 }
 const GroupCall = ({ room }: GroupCallProps) => {
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
+  const [showSide, setShowSide] = useState(false);
   const [showParticipants, setShowParticipants] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const [showRoomInfo, setShowRoomInfo] = useState(false);
-  const [messageContent, messageContentInput] = useTextInput({ id: 'messageContentInput', initValue: "" });
+  const [messageContent, messageContentInput] = useTextInput({ id: 'messageContentInput', initValue: "", placeholder: "Enter Message" });
 
   const { participants, localParticipant, remoteParticipants } = room;
 
@@ -283,50 +284,36 @@ const GroupCall = ({ room }: GroupCallProps) => {
           close={() => setShowRoomInfo(false)}
         />
       </Main>
-      {/* <Side show={showSide}>
-        <SideTitle>
-          <div>
-            Messages
-          </div>
-        </SideTitle>
-        <Participants>
-          <div className="chat-messages">
-            <div className="message">
-              <p className="user-fullname"><strong>User fullname </strong><span>9:12pm</span></p>
-              <p className="content">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-                repudiandae.
-              </p>
-            </div>
-
-          </div>
-        </Participants>
-        <ShareWrapper>
-          <div className="chat-form-container">
-            <form id="chat-form">
-              <input id="msg" type="text" placeholder="Enter Message" required autoComplete="off" />
-              <button className="btn"><i className="fas fa-paper-plane"></i> Send</button>
-            </form>
-          </div>
-        </ShareWrapper>
-      </Side>
-
-
-      <Side show={showSide}>
+      <Side show={showMessages}>
         <SideTitle>
           <div>
             Participants ({room.participants.length})
           </div>
+          <SideClose onClick={() => setShowMessages(false)}><div /></SideClose>
         </SideTitle>
-        <Participants>
-          {participants.map(p => <Participant participant={p} />)}
-        </Participants>
+        <div className="messages">
+          <div className="chat-messages">
+            <div className="message">
+              <p className="user-fullname"><strong>Room </strong></p>
+              <p className="content">
+                Hello everyone!
+              </p>
+            </div>
+          </div>
+        </div>
         <ShareWrapper>
-          <InputWithCopyIcon title="Share room ID" text={room.roomId} />
+          <div className="chat-form-container">
+            <div id="chat-form">
+              <span>
+                {messageContentInput}
+                <button onClick={() => sendMessageToRoom()} id="msgb" className="btn"><i className="fas fa-paper-plane"></i> Send</button>
+              </span>
+            </div>
+          </div>
         </ShareWrapper>
-      </Side> */}
+      </Side>
 
-      <Modal
+      {/* { <Modal
         isOpen={showMessages}
         close={() => setShowMessages(false)}
         shouldCloseOnOverlayClick
@@ -348,7 +335,7 @@ const GroupCall = ({ room }: GroupCallProps) => {
                 <div id="chat-form">
                   <UtilityButtons>
                     {messageContentInput}
-                    {/* <input id="msg" type="text" placeholder="Enter message" required autoComplete="off" /> */}
+                   
                     <Button2 onClick={() => sendMessageToRoom()} >
                       <strong>Send</strong>
                     </Button2>
@@ -360,7 +347,7 @@ const GroupCall = ({ room }: GroupCallProps) => {
         )}
         footer={{}}
         {...null}
-      />
+      /> } */}
 
       <Modal
         isOpen={showParticipants}
