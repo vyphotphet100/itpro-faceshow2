@@ -73,8 +73,8 @@ function subcribeRoom(roomId) {
         setTimeout(function () {
             document.getElementsByClassName('messages')[0].innerHTML += messageBoxStr;
             document.getElementById('messageContentInput').value = '';
-            if (document.getElementsByClassName('message').length == 6)
-                document.getElementsByClassName('message')[0].remove();
+            // if (document.getElementsByClassName('message').length == 6)
+            //     document.getElementsByClassName('message')[0].remove();
         }, 1000);
 
     });
